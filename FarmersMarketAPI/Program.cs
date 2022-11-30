@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Cors;
 using FarmersMarketAPI.Services.Implementations;
 using FarmersMarketAPI.Services.Interfaces;
 using FarmersMarketAPI.Data.UnitOfWork;
+using FarmersMarketAPI.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,6 +86,8 @@ builder.Services.AddTransient<IProfileService, ProfileService>();
 builder.Services.AddTransient<IUsersService, UsersService>();
 
 var app = builder.Build();
+
+app.UseDatabaseMigration();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
