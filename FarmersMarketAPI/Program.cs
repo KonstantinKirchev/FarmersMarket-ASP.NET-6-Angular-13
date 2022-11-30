@@ -5,7 +5,9 @@ using Microsoft.IdentityModel.Tokens;
 using FarmersMarketAPI.Data;
 using FarmersMarketAPI.Models.EntityModels;
 using Microsoft.AspNetCore.Cors;
-
+using FarmersMarketAPI.Services.Implementations;
+using FarmersMarketAPI.Services.Interfaces;
+using FarmersMarketAPI.Data.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +50,8 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<FarmersMarketDbContext>();
 
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 // Add Authentication services & middlewares
 builder.Services.AddAuthentication(opt =>
 {
@@ -70,6 +74,15 @@ builder.Services.AddAuthentication(opt =>
 });
 
 //builder.Services.AddScoped<JwtHandler>();
+builder.Services.AddTransient<DbContext, FarmersMarketDbContext>();
+builder.Services.AddTransient<IFarmersMarketData, FarmersMarketData>();
+builder.Services.AddTransient<IFarmsService, FarmsService>();
+builder.Services.AddTransient<ICategoriesService, CategoriesService>();
+builder.Services.AddTransient<IProductsService, ProductsService>();
+builder.Services.AddTransient<IOrdersService, OrdersService>();
+builder.Services.AddTransient<IShoppingCartService, ShoppingCartService>();
+builder.Services.AddTransient<IProfileService, ProfileService>();
+builder.Services.AddTransient<IUsersService, UsersService>();
 
 var app = builder.Build();
 
